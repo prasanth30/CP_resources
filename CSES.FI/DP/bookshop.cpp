@@ -2,16 +2,16 @@
 using namespace std;
 //actual solution is at bottom//
 ////<pbds>////
-/*OPTIONAL*/
+/*OPTIONAL
 #include <ext/pb_ds/tree_policy.hpp>
 #include <ext/pb_ds/assoc_container.hpp>
 using namespace __gnu_pbds;
-template <class T> using Tree = tree<T, null_type, less_equal<T>, 
+template <class T> using Tree = tree<T, null_type, less<T>, 
     rb_tree_tag, tree_order_statistics_node_update>; 
 // change null_type for map
 #define ook order_of_key
 #define fbo find_by_order
-/**/
+*/
 ///</pbds>///
  
 #define int long long int
@@ -54,28 +54,21 @@ using namespace io;
 inline void google(int i){
     cout<<"Case #"<<i<<" :";
 }
+////1D KNAPSACK
 signed main(){
     setIO("");
-    Tree<int> ms;
-    int n,k;cin>>n>>k;
-    int a[n+1];for(int i=1;i<=n;i++)cin>>a[i];
-    for(int i=1;i<=k;i++)ms.insert(a[i]);
-   // auto itr=ms.cbegin();
-    //advance(itr,(k/2)-(k%2==0));
-    //cout<<*itr<<" ";
-    cout<<*ms.fbo((k/2)-(k%2==0))<<" ";
-    for(int i=k+1;i<=n;i++){
-        int y=a[i-k];
-        ms.erase(ms.upper_bound(y));
-        ms.insert(a[i]);
-       // for(auto i:ms)cerr<<i<<" ";
-       // cerr<<"\n";
-       // cout<<ms.size()<<" ";
-       // auto itr1=ms.cbegin();
-      //  advance(itr1,(k/2)-(k%2==0));
-        cout<<*ms.fbo((k/2)-(k%2==0))<<" ";
-        //cout<<*itr1<<" ";
+    int n,x;cin>>n>>x;
+    int h[n]={0};
+    int s[n]={0};
+    int dp[x+7];
+    for(int i=0;i<n;i++)cin>>h[i];
+    for(int i=0;i<n;i++)cin>>s[i];
+    for(int& i:dp)i=0;
+    for(int i=0;i<n;i++){
+    	for(int j=x;j>=h[i];j--)
+    		dp[j]=max(dp[j],s[i]+dp[j-h[i]]);
     }
+    cout<<dp[x];
     return 0;
 }
 /* stuff you should look for
